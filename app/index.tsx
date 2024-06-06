@@ -7,12 +7,13 @@ import folders from "./mocks/folders"
 export default function FoldersScreen() {
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Task Notification</Text>
       <FlatList
         data={folders}
         renderItem={({ item: { name } }) => {
           return (
             <Link href="/notebook" style={styles.folder}>
-              <Text style={styles.title}>{name}</Text>
+              <Text style={styles.btnTitle}>{name}</Text>
             </Link>
           )
         }}
@@ -28,6 +29,12 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight + 64,
   },
   title: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#FFFFFF",
+    marginBottom: 32
+  },
+  btnTitle: {
     fontSize: 16,
     color: "#FFFFFF",
   },
@@ -38,6 +45,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: "solid",
     borderRadius: 32,
-    borderColor: "#94A3B8",
+    textAlign: "center",
+    backgroundColor: "#220A34",
   },
 })

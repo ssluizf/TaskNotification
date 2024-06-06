@@ -1,12 +1,24 @@
-import { StyleSheet, Text, View } from "react-native"
+import { useCallback, useRef, useState } from "react"
+import { Pressable, StyleSheet, Text, View } from "react-native"
 import Constants from "expo-constants"
 import { Link } from "expo-router"
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons"
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet"
 
-import checklist from "./mocks/checklist";
-import Checkbox from "@/components/atoms/Checkbox";
+import checklist from "./mocks/checklist"
+import Checkbox from "@/components/atoms/Checkbox"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 export default function NoteScreen() {
+  const bottomSheetRef = useRef<BottomSheet>(null)
+
+  const [openNotification, setOpenNotification] = useState(false)
+  const [openSettings, setOpenSettings] = useState(false)
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index)
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -14,8 +26,12 @@ export default function NoteScreen() {
           <MaterialIcons name="arrow-back" size={20} color="white" />
         </Link>
         <View style={styles.headerLeft}>
-          <MaterialIcons name="notifications" size={20} color="white" />
-          <MaterialIcons name="settings" size={20} color="white" />
+          <Pressable onPress={() => setOpenNotification(true)}>
+            <MaterialIcons name="notifications" size={20} color="white" />
+          </Pressable>
+          <Pressable onPress={() => setOpenSettings(true)}>
+            <MaterialIcons name="settings" size={20} color="white" />
+          </Pressable>
         </View>
       </View>
       <Text style={styles.title}>Lista de compras</Text>
@@ -24,6 +40,18 @@ export default function NoteScreen() {
           <Checkbox key={`checkbox-${index}`} {...item} />
         ))}
       </View>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={0}
+          snapPoints={["100%"]}
+          onChange={handleSheetChanges}
+        >
+          <View style={styles.contentContainer}>
+            <Text>Awesome 🎉</Text>
+          </View>
+        </BottomSheet>
+      </GestureHandlerRootView>
     </View>
   )
 }
@@ -37,7 +65,7 @@ const styles = StyleSheet.create({
   header: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   headerLeft: {
     display: "flex",
@@ -50,6 +78,10 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   checkboxList: {
-    gap: 24
-  }
+    gap: 24,
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
 })

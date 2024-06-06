@@ -9,7 +9,7 @@ import NotebookCard from "@/components/molecules/NotebookCard"
 export default function NotebookScreen() {
   return (
     <View style={styles.container}>
-      <Link href="/folders">
+      <Link href="/">
         <MaterialIcons name="arrow-back" size={20} color="white" />
       </Link>
       <Text style={styles.title}>Categoria</Text>
