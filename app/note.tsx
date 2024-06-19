@@ -1,58 +1,63 @@
-import { useCallback, useRef, useState } from "react"
+import { useRef } from "react"
 import { Pressable, StyleSheet, Text, View } from "react-native"
 import Constants from "expo-constants"
 import { Link } from "expo-router"
 import { MaterialIcons } from "@expo/vector-icons"
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet"
 
 import checklist from "./mocks/checklist"
 import Checkbox from "@/components/atoms/Checkbox"
-import { GestureHandlerRootView } from "react-native-gesture-handler"
+import NotificationsModal from "@/components/molecules/NotificationsModal"
 
 export default function NoteScreen() {
-  const bottomSheetRef = useRef<BottomSheet>(null)
+  const notificationsBottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const settingsBottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  const [openNotification, setOpenNotification] = useState(false)
-  const [openSettings, setOpenSettings] = useState(false)
+  const handleNotificationsPresentModalPress = () =>
+    notificationsBottomSheetModalRef.current?.present()
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index)
-  }, [])
+  const handleSettingsPresentModalPress = () =>
+    settingsBottomSheetModalRef.current?.present()
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Link href="/notebook">
-          <MaterialIcons name="arrow-back" size={20} color="white" />
-        </Link>
-        <View style={styles.headerLeft}>
-          <Pressable onPress={() => setOpenNotification(true)}>
-            <MaterialIcons name="notifications" size={20} color="white" />
-          </Pressable>
-          <Pressable onPress={() => setOpenSettings(true)}>
-            <MaterialIcons name="settings" size={20} color="white" />
-          </Pressable>
-        </View>
-      </View>
-      <Text style={styles.title}>Lista de compras</Text>
-      <View style={styles.checkboxList}>
-        {checklist?.map((item, index) => (
-          <Checkbox key={`checkbox-${index}`} {...item} />
-        ))}
-      </View>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={["100%"]}
-          onChange={handleSheetChanges}
-        >
-          <View style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Link href="/notebook">
+              <MaterialIcons name="arrow-back" size={20} color="white" />
+            </Link>
+            <View style={styles.headerLeft}>
+              <Pressable
+                onPress={handleNotificationsPresentModalPress}
+                style={styles.buttonIcon}
+              >
+                <MaterialIcons name="notifications" size={20} color="white" />
+              </Pressable>
+              <Pressable
+                onPress={handleSettingsPresentModalPress}
+                style={styles.buttonIcon}
+              >
+                <MaterialIcons name="settings" size={20} color="white" />
+              </Pressable>
+            </View>
+            <NotificationsModal
+              ref={notificationsBottomSheetModalRef}
+            />
           </View>
-        </BottomSheet>
-      </GestureHandlerRootView>
-    </View>
+          <Text style={styles.title}>Lista de compras</Text>
+          <View style={styles.checkboxList}>
+            {checklist?.map((item, index) => (
+              <Checkbox key={`checkbox-${index}`} {...item} />
+            ))}
+          </View>
+        </View>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   )
 }
 
@@ -70,7 +75,8 @@ const styles = StyleSheet.create({
   headerLeft: {
     display: "flex",
     flexDirection: "row",
-    gap: 16,
+    marginVertical: -8,
+    marginRight: -8,
   },
   title: {
     fontSize: 24,
@@ -83,5 +89,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: "center",
+  },
+  buttonIcon: {
+    padding: 8,
   },
 })

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: "solid",
     borderRadius: 8,
-    borderColor: "#9C3FE6",
+    borderColor: "#663F87",
     backgroundColor: "#220A34",
   },
   title: {

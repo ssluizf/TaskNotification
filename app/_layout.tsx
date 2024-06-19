@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import { Stack } from "expo-router"
 import {
-  DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native"
@@ -14,12 +13,12 @@ import FontAwesome from "@expo/vector-icons/FontAwesome"
 
 import { useColorScheme } from "@/components/useColorScheme"
 
+import { DarkTheme } from "@/assets/styles/themes"
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router"
-
-// TO DO FIX FONT FAMILY FOR EXPO 51
 
 SplashScreen.preventAutoHideAsync()
 
