@@ -1,5 +1,11 @@
 import React, { forwardRef, useMemo, useState } from "react"
-import { Text, StyleSheet, View, Dimensions } from "react-native"
+import {
+  Text,
+  StyleSheet,
+  View,
+  Dimensions,
+  Pressable,
+} from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet"
 import DateTimePicker from "@react-native-community/datetimepicker"
@@ -22,8 +28,8 @@ const NotificationsModal = forwardRef<BottomSheetModal>((_, ref) => {
     return Dimensions.get("window").height * snapHeight
   }
 
-  const minHeight = getHeight(0.25);
-  const maxHeight = getHeight(0.5);
+  const minHeight = getHeight(0.25)
+  const maxHeight = getHeight(0.5)
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate
@@ -57,7 +63,14 @@ const NotificationsModal = forwardRef<BottomSheetModal>((_, ref) => {
           <Text style={styles.title}>Adicionar lembrete</Text>
           <View style={styles.input}>
             <MaterialIcons name="notifications" size={20} color="white" />
-            <Text style={styles.text}>09/06/2024 13:00</Text>
+            <Text>
+              <Pressable onPress={showDatepicker}>
+                <Text style={styles.text}>09/06/2024 </Text>
+              </Pressable>
+              <Pressable onPress={showTimepicker}>
+                <Text style={styles.text}>13:00</Text>
+              </Pressable>
+            </Text>
           </View>
           <RemindersAnimated />
           <ButtonAnimated minHeight={minHeight} maxHeight={maxHeight} />

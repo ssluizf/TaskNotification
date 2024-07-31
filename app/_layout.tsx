@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import { Stack } from "expo-router"
 import {
-  DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native"
 
@@ -13,7 +12,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome"
 
 import { useColorScheme } from "@/components/useColorScheme"
 
-import { DarkTheme } from "@/assets/styles/themes"
+import { DarkTheme, DefaultTheme } from "@/assets/styles/themes"
 
 export {
   // Catch any errors thrown by the Layout component.
